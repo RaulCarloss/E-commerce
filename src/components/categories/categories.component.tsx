@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 // Components
-import CategoryItem from '../category-item/category-item.component.tsx'
+import CategoryItem from '../category-item/category-item.component'
 
 // Styles
-import './categories.styles.css'
+import { CategoriesContainer, CategoriesContent } from './categories.styles'
 
 // Utilities
 import Category from '../../types/category.types'
@@ -31,15 +31,15 @@ const Categories = () => {
   }, [])
 
   return (
-    <div className='categories-container'>
-      <div className='categories-content'>
+    <CategoriesContainer>
+      <CategoriesContent>
         {categories.map((category) => (
           <div key={category.id}>
             <CategoryItem category={category} />
           </div>
         ))}
-      </div>
-    </div>
+      </CategoriesContent>
+    </CategoriesContainer>
   )
 }
 
