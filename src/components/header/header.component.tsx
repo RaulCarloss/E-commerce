@@ -1,4 +1,5 @@
 import { BsCart3 } from 'react-icons/bs'
+import { useNavigate } from 'react-router-dom'
 
 import {
   HeaderContainer,
@@ -8,14 +9,24 @@ import {
 } from './header.styles'
 
 const Header = () => {
+  const navigate = useNavigate()
+
+  const handleLoginClick = () => {
+    navigate('/login')
+  }
+
+  const handleSignUpClick = () => {
+    navigate('/sign-up')
+  }
+
   return (
     <HeaderContainer>
       <HeaderTitle>CLUB CLOTHING</HeaderTitle>
 
       <HeaderItems>
         <HeaderItem>Explorar</HeaderItem>
-        <HeaderItem>Login</HeaderItem>
-        <HeaderItem>Criar Conta</HeaderItem>
+        <HeaderItem onClick={handleLoginClick}>Login</HeaderItem>
+        <HeaderItem onClick={handleSignUpClick}>Criar Conta</HeaderItem>
         <HeaderItem>
           <BsCart3 size={25} />
           <p style={{ marginLeft: 5 }}>5</p>
