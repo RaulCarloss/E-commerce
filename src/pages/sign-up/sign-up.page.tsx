@@ -56,7 +56,8 @@ const SignUpPage = () => {
         id: userCredentials.user.uid,
         email: userCredentials.user.email,
         firstName: data.firstName,
-        lastName: data.lastName
+        lastName: data.lastName,
+        provider: 'firebase'
       })
     } catch (error) {
       const _error = error as AuthError
@@ -79,7 +80,7 @@ const SignUpPage = () => {
             <p>Nome</p>
             <CustomInput
               hasError={!!errors?.firstName}
-              placeholder="Digite seu nome"
+              placeholder='Digite seu nome'
               {...register('firstName', { required: true })}
             />
 
@@ -92,7 +93,7 @@ const SignUpPage = () => {
             <p>Sobrenome</p>
             <CustomInput
               hasError={!!errors?.lastName}
-              placeholder="Digite seu sobrenome"
+              placeholder='Digite seu sobrenome'
               {...register('lastName', { required: true })}
             />
 
@@ -105,7 +106,7 @@ const SignUpPage = () => {
             <p>E-mail</p>
             <CustomInput
               hasError={!!errors?.email}
-              placeholder="Digite seu e-mail"
+              placeholder='Digite seu e-mail'
               {...register('email', {
                 required: true,
                 validate: (value) => {
@@ -135,8 +136,8 @@ const SignUpPage = () => {
             <p>Senha</p>
             <CustomInput
               hasError={!!errors?.password}
-              placeholder="Digite sua senha"
-              type="password"
+              placeholder='Digite sua senha'
+              type='password'
               {...register('password', { required: true, minLength: 6 })}
             />
 
@@ -155,8 +156,8 @@ const SignUpPage = () => {
             <p>Confirmação de Senha</p>
             <CustomInput
               hasError={!!errors?.passwordConfirmation}
-              placeholder="Digite novamente sua senha"
-              type="password"
+              placeholder='Digite novamente sua senha'
+              type='password'
               {...register('passwordConfirmation', {
                 required: true,
                 minLength: 6,
@@ -187,7 +188,8 @@ const SignUpPage = () => {
 
           <CustomButton
             onClick={() => handleSubmit(handleSubmitPress)()}
-            startIcon={<FiLogIn size={18} />}>
+            startIcon={<FiLogIn size={18} />}
+          >
             Criar Conta
           </CustomButton>
         </SignUpContent>
