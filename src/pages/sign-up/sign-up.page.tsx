@@ -7,15 +7,12 @@ import {
   AuthErrorCodes
 } from 'firebase/auth'
 import { addDoc, collection } from 'firebase/firestore'
-import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 
 // Components
 import CustomButton from '../../components/custom-button/custom-button.component'
 import CustomInput from '../../components/custom-input/custom-input.component'
 import Header from '../../components/header/header.component'
 import InputErrorMessage from '../../components/input-error-message/input-error-message.component'
-import Loading from '../../components/loading/loading.component'
 
 // Styles
 import {
@@ -27,7 +24,6 @@ import {
 
 // Utilities
 import { auth, db } from '../../config/firebase.config'
-import { useAppSelector } from '../../hooks/redux.hooks'
 
 interface SignUpForm {
   firstName: string
@@ -46,26 +42,10 @@ const SignUpPage = () => {
     formState: { errors }
   } = useForm<SignUpForm>()
 
-  const [isLoading, setIsLoading] = useState(false)
-
   const watchPassword = watch('password')
-
-  const { isAuthenticated } = useAppSelector(
-    (rootReducer) => rootReducer.userReducer
-  )
-
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/')
-    }
-  }, [isAuthenticated])
 
   const handleSubmitPress = async (data: SignUpForm) => {
     try {
-      setIsLoading(true)
-
       const userCredentials = await createUserWithEmailAndPassword(
         auth,
         data.email,
@@ -76,8 +56,7 @@ const SignUpPage = () => {
         id: userCredentials.user.uid,
         email: userCredentials.user.email,
         firstName: data.firstName,
-        lastName: data.lastName,
-        provider: 'firebase'
+        lastName: data.lastName
       })
     } catch (error) {
       const _error = error as AuthError
@@ -85,16 +64,12 @@ const SignUpPage = () => {
       if (_error.code === AuthErrorCodes.EMAIL_EXISTS) {
         return setError('email', { type: 'alreadyInUse' })
       }
-    } finally {
-      setIsLoading(false)
     }
   }
 
   return (
     <>
       <Header />
-
-      {isLoading && <Loading />}
 
       <SignUpContainer>
         <SignUpContent>
