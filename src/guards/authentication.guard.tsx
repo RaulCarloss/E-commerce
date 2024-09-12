@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react'
+import { FunctionComponent, ReactNode, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
@@ -6,10 +6,19 @@ import { useSelector } from 'react-redux'
 import Header from '../components/header/header.component'
 import Loading from '../components/loading/loading.component'
 
-const AuthenticationGuard: FunctionComponent = ({ children }) => {
-  const { isAuthenticated } = useSelector(
-    (rootReducer: any) => rootReducer.userReducer
-  )
+// Define the shape of your Redux state for type safety
+interface RootState {
+  userReducer: {
+    isAuthenticated: boolean
+  }
+}
+
+interface AuthenticationGuardProps {
+  children: ReactNode
+}
+
+const AuthenticationGuard: FunctionComponent<AuthenticationGuardProps> = ({ children }) => {
+  const { isAuthenticated } = useSelector((state: RootState) => state.userReducer)
 
   const navigate = useNavigate()
 
@@ -19,7 +28,7 @@ const AuthenticationGuard: FunctionComponent = ({ children }) => {
         navigate('/login')
       }, 3000)
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, navigate])
 
   if (!isAuthenticated) {
     return (
